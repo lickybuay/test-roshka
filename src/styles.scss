@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --blanco: #ffffff;
+    --azulroshka: #114f97;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color:var(--azulroshka);
+}
+
+.bg-azul {
+    background: var(--azulroshka);
+    color: var(--blanco);
+}
+
+#btn-editar{
+    color: var(--blanco);
+}
+
+.mr-auto {
+    margin-right: auto;
+}

@@ -1,0 +1,100 @@
+
+<div class="row">
+    <div class="col mb-4 d-flex align-items-center">
+        <button type="button" (click)="cargarDesdeApi()" class="btn btn-warning text-light" [disabled]="loading ? true : false">
+            <ng-container *ngIf="!loading">Recargar desde el API</ng-container>
+            <ng-container *ngIf="loading"><img width="20px" src="/assets/oval.svg" /></ng-container>            
+        </button>
+        <p id="btn-disclaimer"><small>(Eliminará cualquier cambio realizado)</small></p>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nro Documento</th>
+            <th scope="col">Nombre Completo</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Lugar de Trabajo</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let cliente of clientes; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ cliente.nro_documento }}</td>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.direccion }}</td>
+            <td>{{ cliente.trabajo }}</td>
+            <td>{{ cliente.telefono }}</td>
+            <td class="d-flex">
+                <button type="button" id="btn-editar" class="btn btn-success mr-auto" (click)="openModal(content, false, i)">Ver</button>
+                <button type="button" id="btn-editar" class="btn btn-info mr-auto" (click)="openModal(content, true, i)">Editar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Editar Usuario</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="usuariosForm" (keyup.enter)="actualizarUsuario()">
+            <input type="hidden" id="id" class="form-control" formControlName="id" name="id" value="activeUser.id">
+            <div class="mb-3">
+                <label for="nombre"><b>Nombre Completo</b></label>
+                <div *ngIf="!canEdit" class="mt-2 input-group">        
+                    <p>{{activeUser.nombre}}</p>
+                </div>
+                <div *ngIf="canEdit" class="mt-2 input-group">                    
+                    <input type="text" id="nombre" class="form-control" formControlName="nombre" name="nombre" value="activeUser.nombre">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="nro_documento"><b>Nro Documento</b></label>
+                <div *ngIf="!canEdit" class="mt-2 input-group">
+                    <p>{{activeUser.nombre}}</p>
+                </div>
+                <div *ngIf="canEdit" class="mt-2 input-group">
+                    <p *ngIf="!canEdit">{{activeUser.nro_documento}}</p>
+                    <input *ngIf="canEdit" type="text" id="nro_documento" class="form-control" formControlName="nro_documento" name="nro_documento" value="activeUser.nro_documento">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="direccion"><b>Dirección</b></label>
+                <div *ngIf="!canEdit" class="mt-2 input-group">        
+                    <p>{{activeUser.direccion}}</p>
+                </div>
+                <div *ngIf="canEdit" class="mt-2 input-group">                    
+                    <input *ngIf="canEdit" type="text" id="direccion" class="form-control" formControlName="direccion" name="direccion" value="activeUser.direccion">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="trabajo"><b>Lugar de Trabajo</b></label>
+                <div *ngIf="!canEdit" class="mt-2 input-group">        
+                    <p>{{activeUser.trabajo}}</p>
+                </div>
+                <div *ngIf="canEdit" class="mt-2 input-group">                    
+                    <input *ngIf="canEdit" type="text" id="trabajo" class="form-control" formControlName="trabajo" name="trabajo" value="activeUser.trabajo">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="telefono"><b>Teléfono</b></label>
+                <div *ngIf="!canEdit" class="mt-2 input-group">        
+                    <p>{{activeUser.telefono}}</p>
+                </div>
+                <div *ngIf="canEdit" class="mt-2 input-group">                    
+                    <input *ngIf="canEdit" type="text" id="telefono" class="form-control" formControlName="telefono" name="telefono" value="activeUser.telefono">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark mr-auto" (click)="modal.close()">Cerrar</button>
+        <button *ngIf="canEdit" type="button" class="btn btn-success" (click)="actualizarUsuario()">Actualizar</button>
+    </div>
+</ng-template>
