@@ -43,10 +43,10 @@ export class InicioComponent implements OnInit {
     this.loading=true;
     this.clientesApi.suscribeClienteInfo().subscribe(res=>{
         //Timeout para poder ver el loading
-        // setTimeout(() => {
+        setTimeout(() => {
           this.clientes = res;
           this.loading=false;          
-        // }, 1000);
+        }, 1000);
     });
     this.clientesApi.getClienteInfo();
   }
